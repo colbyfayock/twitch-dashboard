@@ -1,0 +1,57 @@
+@import "@styles/settings/__settings";
+
+.twitch {
+  display: flex;
+}
+
+.forms {
+
+  width: 40%;
+  padding-right: 4em;
+
+  form {
+    margin-bottom: 2em;
+  }
+  h2 {
+    margin-top: 0;
+  }
+
+  input,
+  label,
+  textarea {
+    width: 100%;
+    text-align: left;
+    max-width: none;
+  }
+
+  textarea {
+    min-height: 6em;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 1em;
+  }
+
+}
+
+.preview {
+
+  width: 60%;
+
+  figure {
+
+    position: relative;
+    aspect-ratio: 1920 / 1080;
+    background: $color-gray-100;
+    margin: 0;
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+  }
+
+}

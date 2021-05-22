@@ -1,0 +1,80 @@
+@import "@styles/settings/__settings";
+@import "@styles/util/__util";
+
+.sectionAuthor {
+  padding: 3rem 0;
+}
+
+.sectionAuthorContainer {
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 60rem;
+
+  @include gtMedium() {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  h3 {
+
+    width: 100%;
+    font-size: 2.4em;
+    margin: 0;
+
+    a {
+
+      text-decoration: none;
+
+      @media (hover: hover) {
+
+        &:hover {
+          text-decoration: underline;
+        }
+
+      }
+
+    }
+
+  }
+
+  p {
+    font-size: 1.4em;
+    margin: .5em 0 0;
+  }
+
+  a {
+
+    @include gtSmall() {
+      white-space: nowrap;
+    }
+
+  }
+
+  div {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+}
+
+.sectionAuthorPicture {
+
+  margin: 0 0 2em;
+
+  @include gtMedium() {
+    margin: 0 2em 0 0;
+  }
+
+  img {
+    width: 10em;
+    height: 10em;
+    border-radius: 100%;
+  }
+
+}

@@ -1,0 +1,19 @@
+@import "@styles/settings/__settings";
+
+.form {
+
+  font-size: .8em;
+
+  input,
+  button {
+    width: 100%;
+    max-width: 17rem;
+  }
+
+  input {
+    font-size: 1.2em;
+    text-align: center;
+    padding: .8em;
+  }
+
+}

@@ -1,0 +1,28 @@
+@import "@styles/settings/__settings";
+
+.section {
+
+  padding: 2rem 0;
+  margin: 3rem 0;
+
+  &[data-background-color="primary"],
+  &[data-background-color="secondary"],
+  &[data-background-color="purple-dark"] {
+    color: white;
+    margin: 0;
+  }
+
+  &[data-background-color="primary"] {
+    background-color: $color-primary;
+  }
+
+  &[data-background-color="secondary"] {
+    background-color: $color-secondary;
+  }
+
+  &[data-background-color="purple-dark"] {
+    background-color: $color-purple-900;
+  }
+
+}
+
