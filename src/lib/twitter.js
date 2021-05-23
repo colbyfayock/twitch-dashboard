@@ -11,10 +11,10 @@ function getTwitterClient(subdomain = 'api') {
   if ( !client[subdomain] ) {
     client[subdomain] = new Twitter({
       subdomain,
-      consumer_key: process.env.SPACE_JELLY_TWITTER_CONSUMER_KEY,
-      consumer_secret: process.env.SPACE_JELLY_TWITTER_CONSUMER_SECRET,
-      access_token_key: process.env.SPACE_JELLY_TWITTER_ACCESS_TOKEN_KEY,
-      access_token_secret: process.env.SPACE_JELLY_TWITTER_ACCESS_TOKEN_SECRET
+      consumer_key: process.env.TWITTER_CONSUMER_KEY,
+      consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+      access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+      access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
     });
   }
 
