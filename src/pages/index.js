@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
+import twitterText from 'twitter-text';
 
 import Layout from '@components/Layout';
 import Section from '@components/Section';
@@ -17,7 +18,7 @@ export default function Home() {
   const [screenshot, updateScreenshot] = useState(null);
   const [isReady, updateIsReady] = useState(false);
 
-  const screenshotUrl = screenshot && `${screenshot.folder.replace('public/', '')}/${screenshot.filename}`;
+  const screenshotPath = screenshot && `${screenshot.folder.replace('public/', '')}/${screenshot.filename}`;
 
   /**
    * TODO: Set up endpoint to post tweet, should grab local image to upload based on path
@@ -28,7 +29,7 @@ export default function Home() {
     if ( !screenshot ) return;
 
     (async function pollForImage() {
-      const response = await fetch(screenshotUrl, {
+      const response = await fetch(screenshotPath, {
         method: 'HEAD'
       });
 
@@ -72,6 +73,35 @@ export default function Home() {
     updateScreenshot(data)
   }
 
+  async function handleOnSubmitTweet(e) {
+    e.preventDefault();
+
+    const formData = {};
+
+    Array.from(e.currentTarget.elements).forEach(field => {
+      if ( !field.name ) return;
+      formData[field.name] = field.value;
+    });
+
+    const tweetData = {
+      status: formData.tweetMessage,
+      media: `${window.location.origin}/${screenshotPath}`
+    }
+
+    let response;
+
+    try {
+      response = await fetch('/api/tweet', {
+        method: 'POST',
+        body: JSON.stringify(tweetData)
+      });
+    } catch(e) {
+      console.log('e.message', e.message);
+    }
+
+    console.log('response.status', response.status)
+  }
+
   return (
     <Layout>
       <Head>
@@ -100,8 +130,8 @@ export default function Home() {
                   </Button>
                 </p>
               </Form>
-              {screenshotUrl && (
-                <Form onSubmit={handleOnSubmitScreenshot}>
+              {screenshotPath && (
+                <Form onSubmit={handleOnSubmitTweet}>
                   <h2>Tweet</h2>
                   <p>
                     <label htmlFor="tweetMessage">Message</label>
@@ -116,8 +146,8 @@ export default function Home() {
             </div>
             <div className={styles.preview}>
               <figure>
-                {isReady && screenshotUrl && (
-                  <img src={screenshotUrl} />
+                {isReady && screenshotPath && (
+                  <img src={screenshotPath} />
                 )}
               </figure>
             </div>

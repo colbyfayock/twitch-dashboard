@@ -10,6 +10,7 @@ export default async (req, res) => {
   const { streamId } = body;
 
   if ( typeof streamId !== 'string' ) {
+    console.log(`${tag} Input error - invalid streamId`);
     return res.status(500).json({
       status: 'Invalid streamId'
     })
@@ -24,6 +25,7 @@ export default async (req, res) => {
   try {
     streams = await twitch.getStream(streamId);
   } catch(e) {
+    console.log(`${tag} Failed to get stream - ${e.message}`);
     return res.status(204).json({
       status: e.message
     })

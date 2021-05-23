@@ -10,10 +10,13 @@
     max-width: 17rem;
   }
 
-  input {
+  input,
+  textarea {
     font-size: 1.2em;
     text-align: center;
+    font-family: inherit;
     padding: .8em;
+    border: solid 2px $color-gray-400;
   }
 
 }
