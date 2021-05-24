@@ -1,3 +1,4 @@
+const fs = require('fs/promises');
 const twitch = require('twitch-m3u8');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
@@ -60,6 +61,9 @@ export default async (req, res) => {
   console.log(`${tag} Capturing screenshot with config: ${JSON.stringify(screenshotConfig, null, 2)}`);
 
   ffmpeg(ts.body).screenshots(screenshotConfig);
+
+  const file = await fs.readFile(`${folder}/${filname}`);
+  console.log('file', file)
 
   console.log(`${tag} Successfully download screenshot to ${screenshotConfig.folder}/${screenshotConfig.filename}`);
 
