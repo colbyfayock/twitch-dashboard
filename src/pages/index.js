@@ -16,37 +16,17 @@ import styles from '@styles/pages/Home.module.scss'
 
 export default function Home() {
   const [screenshot, updateScreenshot] = useState(null);
-  const [isReady, updateIsReady] = useState(false);
-
-  const screenshotPath = screenshot && `${screenshot.folder.replace('public/', '')}/${screenshot.filename}`;
 
   /**
    * TODO: Set up endpoint to post tweet, should grab local image to upload based on path
    * TODO: Add validation to avoid tweets that are too long
+   * TODO: Save past screenshots to localstorage
    */
-
-  useEffect(() => {
-    if ( !screenshot ) return;
-
-    (async function pollForImage() {
-      const response = await fetch(screenshotPath, {
-        method: 'HEAD'
-      });
-
-      if ( !response.ok ) {
-        setTimeout(() => pollForImage(), 1000);
-        return;
-      }
-
-      updateIsReady(true);
-    })()
-  }, [screenshot]);
 
   async function handleOnSubmitScreenshot(e) {
     e.preventDefault();
 
     updateScreenshot(null);
-    updateIsReady(false);
 
     const formData = {};
 
@@ -85,7 +65,7 @@ export default function Home() {
 
     const tweetData = {
       status: formData.tweetMessage,
-      media: `${window.location.origin}/${screenshotPath}`
+      media: screenshot.url
     }
 
     let response;
@@ -126,11 +106,12 @@ export default function Home() {
                 </p>
                 <p>
                   <Button>
-                    { isReady ? 'Refresh' : 'Get Screenshot' }
+                    { screenshot?.url ? 'Refresh' : 'Get Screenshot' }
                   </Button>
                 </p>
               </Form>
-              {screenshotPath && (
+
+              {screenshot?.url && (
                 <Form onSubmit={handleOnSubmitTweet}>
                   <h2>Tweet</h2>
                   <p>
@@ -142,12 +123,11 @@ export default function Home() {
                   </p>
                 </Form>
               )}
-
             </div>
             <div className={styles.preview}>
               <figure>
-                {isReady && screenshotPath && (
-                  <img src={screenshotPath} />
+                {screenshot?.url && (
+                  <img src={screenshot.url} />
                 )}
               </figure>
             </div>

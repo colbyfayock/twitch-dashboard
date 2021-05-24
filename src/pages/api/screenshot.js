@@ -1,10 +1,13 @@
-const fs = require('fs/promises');
+const fs = require('fs').promises;
+const FormData = require('form-data');
+const path = require('path');
 const twitch = require('twitch-m3u8');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
 
+const { getScreenshot } = require('@lib/media');
+
 const tag = '[Screenshot]';
-const OUTPUT_DIRECTORY = 'public/screenshots'
 
 export default async (req, res) => {
   const body = JSON.parse(req.body) || {};
@@ -49,7 +52,7 @@ export default async (req, res) => {
   const ts = await fetch(lastTsUrl);
 
   const filename = `${streamId}-${new Date().toISOString()}.png`;
-  const folder = OUTPUT_DIRECTORY;
+  const folder = process.env.TMP_DIRECTORY;
 
   const screenshotConfig = {
     timestamps: [0],
@@ -60,17 +63,38 @@ export default async (req, res) => {
 
   console.log(`${tag} Capturing screenshot with config: ${JSON.stringify(screenshotConfig, null, 2)}`);
 
-  ffmpeg(ts.body).screenshots(screenshotConfig);
+  await getScreenshot(ts.body, screenshotConfig);
 
-  const file = await fs.readFile(`${folder}/${filname}`);
+  console.log('read')
+
+  const file = await fs.readFile(path.join(folder, filename));
   console.log('file', file)
 
-  console.log(`${tag} Successfully download screenshot to ${screenshotConfig.folder}/${screenshotConfig.filename}`);
+  const formData = new FormData()
+
+  formData.append('type', 'file')
+  formData.append('image', file)
+
+  let image = await fetch('https://api.imgur.com/3/image', {
+    method: 'POST',
+    headers: {
+      Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}`,
+      Accept: 'application/json'
+    },
+    body: formData
+  });
+
+  image = await image.json();
+
+
+console.log('image', image)
+
+
+  console.log(`${tag} Successfully uploaded image to ${image.link}`);
 
   return res.status(200).json({
     data: {
-      filename,
-      folder
+      url: image.data.link
     },
     status: 'Ok'
   })

@@ -10,6 +10,7 @@
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "fluent-ffmpeg": "^2.1.2",
+    "form-data": "^4.0.0",
     "fs": "^0.0.1-security",
     "next": "10.2.2",
     "next-compose-plugins": "^2.2.1",
