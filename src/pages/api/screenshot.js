@@ -65,10 +65,7 @@ export default async (req, res) => {
 
   await getScreenshot(ts.body, screenshotConfig);
 
-  console.log('read')
-
   const file = await fs.readFile(path.join(folder, filename));
-  console.log('file', file)
 
   const formData = new FormData()
 
@@ -85,10 +82,6 @@ export default async (req, res) => {
   });
 
   image = await image.json();
-
-
-console.log('image', image)
-
 
   console.log(`${tag} Successfully uploaded image to ${image.link}`);
 
