@@ -30,7 +30,7 @@ export default async (req, res) => {
     streams = await twitch.getStream(streamId);
   } catch(e) {
     console.log(`${tag} Failed to get stream - ${e.message}`);
-    return res.status(204).json({
+    return res.status(400).json({
       status: e.message
     })
   }
@@ -72,22 +72,32 @@ export default async (req, res) => {
   formData.append('type', 'file')
   formData.append('image', file)
 
-  let image = await fetch('https://api.imgur.com/3/image', {
-    method: 'POST',
-    headers: {
-      Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}`,
-      Accept: 'application/json'
-    },
-    body: formData
-  });
+  let response;
 
-  image = await image.json();
+  try {
+    response = await fetch('https://api.imgur.com/3/image', {
+      method: 'POST',
+      headers: {
+        Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}`,
+        Accept: 'application/json'
+      },
+      body: formData
+    });
+    response = await response.json();
+  } catch(e) {
+    console.log(`${tag} Failed to upload to Imgur - ${e.message}`);
+    return res.status(400).json({
+      status: e.message
+    })
+  }
+
+  const { data: image } = response;
 
   console.log(`${tag} Successfully uploaded image to ${image.link}`);
 
   return res.status(200).json({
     data: {
-      url: image.data.link
+      url: image.link
     },
     status: 'Ok'
   })

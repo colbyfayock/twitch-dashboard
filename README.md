@@ -11,6 +11,7 @@ Next.js app that has some simple helpers while managing a Twitch stream.
 ```
 TWITTER_CONSUMER_KEY="[Your Key]"
 TWITTER_CONSUMER_SECRET="[Your Secret]"
+IMGUR_CLIENT_ID="[Your ID]"
 TMP_DIRECTORY="[Your Environment's Temporary Directory]"
 NEXTAUTH_URL="[Your URL]"
 APP_SECRET="[Your App Secret]"
@@ -23,12 +24,18 @@ Currently works deployed to Vercel.
 ## Setup
 
 ### Twitter Credentials & Configuration
-- Create and register a new App at: https://developer.twitter.com/
+- Create and register a new app at: https://developer.twitter.com/ (Note: create an App for API v1)
 - Save your API Key and API Secret Key (these are also known as Consumer keys)
 - Under "App permissions", enable Read and Write
 - Under "Authentication settings", enable 3-legged OAuth and "Request email address from users"
 - While developling locally, callback URL should be http://localhost:3000
 - Fill in website, terms, and privacy URLs as appropriate (can be public homepage)
+
+### Imgur Credentials & Configuration
+- Create and register a new app at: https://api.imgur.com/oauth2/addclient
+- When creating, select Anonymous usage without user authorization
+- Set callback URL as production URL
+- Save your client ID
 
 ### Temporary Directory
 When developling locally, your temporary directory should be something writable on your local environment.
