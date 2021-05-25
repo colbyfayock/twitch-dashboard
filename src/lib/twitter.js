@@ -7,14 +7,14 @@ let client = {};
  * getTwitterClient
  */
 
-function getTwitterClient(subdomain = 'api') {
+function getTwitterClient({ accessToken, refreshToken, subdomain = 'api' }) {
   if ( !client[subdomain] ) {
     client[subdomain] = new Twitter({
       subdomain,
       consumer_key: process.env.TWITTER_CONSUMER_KEY,
       consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-      access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-      access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+      access_token_key: accessToken,
+      access_token_secret: refreshToken
     });
   }
 
@@ -29,7 +29,7 @@ module.exports.getTwitterClient = getTwitterClient;
  * @description Manage setting up and tweeting the given status
  */
 
-async function tweet({ status, media }) {
+async function tweet({ status, media, accessToken, refreshToken }) {
   const options = {
     status,
   }
@@ -44,14 +44,22 @@ async function tweet({ status, media }) {
   }
 
   if ( typeof media === 'string' && media.length !== 0 ) {
-    uploadedMedia = await uploadTwitterMedia(media);
+    uploadedMedia = await uploadTwitterMedia({
+      accessToken,
+      refreshToken,
+      media
+    });
   }
 
   if ( uploadedMedia ) {
     options.media_ids = uploadedMedia.media_id_string;
   }
 
-  request = await updateTwitterStatus(options);
+  request = await updateTwitterStatus({
+    ...options,
+    accessToken,
+    refreshToken
+  });
 }
 
 module.exports.tweet = tweet;
@@ -62,10 +70,14 @@ module.exports.tweet = tweet;
  * @description Upload given media to Twitter and return as base64
  */
 
-async function uploadTwitterMedia(media) {
+async function uploadTwitterMedia({ accessToken, refreshToken, media }) {
   const errorBase = 'Failed to upload media to Twitter';
 
-  const twitter = getTwitterClient('upload');
+  const twitter = getTwitterClient({
+    subdomain: 'upload',
+    accessToken,
+    refreshToken
+  });
   const request = await fetch(media);
   const buffer = await request.buffer();
   const mediaBase64 = Buffer.from(buffer).toString('base64');
@@ -93,10 +105,13 @@ module.exports.uploadTwitterMedia = uploadTwitterMedia;
  * @description Posts the given status update to twitter
  */
 
-async function updateTwitterStatus(options = {}) {
+async function updateTwitterStatus({ accessToken, refreshToken, ...options } = {}) {
   const errorBase = 'Failed to update Twitter status';
 
-  const twitter = getTwitterClient();
+  const twitter = getTwitterClient({
+    accessToken,
+    refreshToken
+  });
 
   let response;
 

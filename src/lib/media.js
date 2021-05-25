@@ -9,10 +9,7 @@ function getScreenshot(body, options) {
   return new Promise((resolve, reject) => {
     ffmpeg(body)
       .screenshots(options)
-      .on('end', () => {
-        console.log('end');
-        resolve()
-      });
+      .on('end', () => resolve());
   })
 }
 

@@ -13,6 +13,7 @@
     "form-data": "^4.0.0",
     "fs": "^0.0.1-security",
     "next": "10.2.2",
+    "next-auth": "^3.23.3",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.7.0",
     "path": "^0.12.7",
