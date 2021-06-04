@@ -122,7 +122,7 @@ export default function Home() {
    */
 
   async function handleOnSubmitTweet(e) {
-    e.preventDefault();
+    typeof e.preventDefault === 'function' && e.preventDefault();
 
     if ( !session ) {
       updateScreenshot(prev => ({
@@ -169,6 +169,19 @@ export default function Home() {
       data: tweetData,
       state: 'ready'
     });
+  }
+
+  /**
+   *
+   */
+
+  function handleOnTweetKeyPress(e) {
+    if (e.key === 'Enter' && e.shiftKey) {
+      e.preventDefault();
+      handleOnSubmitTweet({
+        currentTarget: e.currentTarget.form
+      });
+    }
   }
 
   return (
@@ -233,13 +246,16 @@ export default function Home() {
                     <>
                       <p>
                         <label htmlFor="tweetMessage">Message</label>
-                        <textarea id="tweetMessage" name="tweetMessage" />
+                        <textarea id="tweetMessage" name="tweetMessage" onKeyPress={handleOnTweetKeyPress} />
                       </p>
                       <p>
                         <Button disabled={tweetIsLoading}>
                           { !tweetIsLoading && 'Post' }
                           { tweetIsLoading && 'Loading' }
                         </Button>
+                      </p>
+                      <p>
+                        Press Shift + Enter to submit.
                       </p>
                     </>
                   )}
