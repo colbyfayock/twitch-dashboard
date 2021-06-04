@@ -1,6 +1,7 @@
 @import "@styles/settings/__settings";
 
 .button {
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -12,6 +13,11 @@
   padding: .8em 1.4em;
   border: 0;
   cursor: pointer;
+
+  &[disabled] {
+    color: $color-gray-100;
+    background-color: $color-gray-500;
+  }
 
   svg {
     margin: 0 .5em 0 0;

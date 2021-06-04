@@ -1,5 +1,34 @@
 @import "@styles/settings/__settings";
 
+.sessionSection {
+
+  padding: 0;
+  margin: 1rem 0;
+
+}
+
+.sessionContainer {
+  display: flex;
+  justify-content: space-between;
+
+  h1 {
+    font-size: 2em;
+    margin: 0;
+  }
+
+}
+
+.sessionSignIn {
+
+  margin: 0;
+
+  button {
+    font-size: .9em;
+    margin-left: .5em;
+  }
+
+}
+
 .twitch {
   display: flex;
 }
@@ -10,8 +39,15 @@
   padding-right: 4em;
 
   form {
-    margin-bottom: 2em;
+
+    margin-bottom: 3em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
   }
+
   h2 {
     margin-top: 0;
   }
@@ -35,23 +71,79 @@
 
 }
 
+.tweetHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tweetHeaderAs {
+
+  display: inline-flex;
+  align-items: center;
+  font-weight: normal;
+  font-size: .8em;
+
+  svg {
+    font-size: .9em;
+    margin-right: .4em;
+  }
+
+}
+
 .preview {
 
   width: 60%;
 
   figure {
-
-    position: relative;
-    aspect-ratio: 1920 / 1080;
-    background: $color-gray-100;
     margin: 0;
+  }
 
-    img {
-      position: absolute;
-      top: 0;
-      left: 0;
+  figcaption {
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: .5em;
+
+    svg {
+      margin-right: .5em;
     }
 
+  }
+
+  &[data-screenshot-state="error"] {
+
+    figure {
+      color: white;
+      background: $color-red-600;
+    }
+
+    figcaption {
+      position: static;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      padding: 1.5em;
+      font-size: 1.2em;
+    }
+
+  }
+
+}
+
+.previewImage {
+
+  position: relative;
+  aspect-ratio: 1920 / 1080;
+  background: $color-gray-100;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
 }
