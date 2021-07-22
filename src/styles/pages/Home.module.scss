@@ -140,10 +140,25 @@
   aspect-ratio: 1920 / 1080;
   background: $color-gray-100;
 
+  [data-screenshot-state="loading"] & {
+    background: linear-gradient(90deg, $color-gray-100 30%, lighten($color-gray-100, 5) 50%, $color-gray-100 70%);
+    background-size: 400%;
+    animation: loading 1.2s ease-in-out infinite;
+  }
+
   img {
     position: absolute;
     top: 0;
     left: 0;
   }
 
+}
+
+@keyframes loading {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
 }
